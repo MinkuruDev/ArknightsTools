@@ -18,9 +18,10 @@ months = {
     12: "Dec"
 }
 
-srcData = os.path.join("WriteData", "data.xlsx")
+dataname = "operators"
+srcData = os.path.join("WriteData", dataname + ".xlsx")
 tempData = os.path.join("WriteData", "temp.csv")
-resData = os.path.join("src", "js", "operators.js")
+resData = os.path.join("src", "js", dataname + ".js")
 
 def main():
     # read xlsx file
