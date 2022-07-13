@@ -1,2 +1,5 @@
 # folder for local testing
 local test
+
+# file for local temp
+Writedata/*.csv

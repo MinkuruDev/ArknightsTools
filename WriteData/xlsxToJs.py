@@ -20,7 +20,7 @@ months = {
 
 dataname = "operators"
 srcData = os.path.join("WriteData", dataname + ".xlsx")
-tempData = os.path.join("WriteData", "temp.csv")
+tempData = os.path.join("WriteData", dataname + ".csv")
 resData = os.path.join("src", "js", dataname + ".js")
 
 def main():
@@ -31,13 +31,13 @@ def main():
     csv_reader = csv.reader(csv_file)
     data = list(csv_reader)
     csv_file.close()
-    os.remove(path=tempData)
+    # os.remove(path=tempData)
 
     js_file = open(resData, 'w')
     props = data[0]
 
     # write data to js file
-    js_file.write("const operators = {\n")
+    js_file.write("const " + dataname + " = {\n")
     l = len(data)
     for i in range(1, l):
         op = {}
