@@ -1,8 +1,99 @@
-<html>
-    <head>
-        <title>Arknights Tools</title>
-    </head>
-    <body>
-        
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arknights Tools</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/moblie-style.css">
+</head>
+<body>
+    <header>
+        <div class="topnav" id="header">
+            <div>
+                <a class="prn" href="index.html">Arknights</a>
+                <a class="hub" href="index.html">Tools</a>
+            </div>
+            <a id="navcontrol" onclick="showNav()">
+                <img src="img/nav/more.png" alt="">
+            </a>
+            <div class="hide">
+                <a href="index.html">Home</a>
+                <a href="#statistic" onclick="return showNav()">Statistic</a>
+                <a href="#headhunt" onclick="return showNav()">Headhunt</a>
+                <a href="#recruit" onclick="return showNav()">Recruit</a>
+                <a href="#ifOperator" onclick="return showNav()">Fun</a>
+                <a href="#about" onclick="return showNav()">About</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="goTop">
+        <a href="#top">Top</a>
+    </div>
+
+    <div>
+        <a href="pages/statistic.html">
+            <div class="content" id="statistic">
+                <h1>Statistic Tool</h1>
+                <p>Race Statistic</p>
+                <p>Birthday Statistic</p>
+                <p>Place Statistic</p>
+                <p>Class Statistic</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="pages/headhunt.html">
+            <div class="content" id="headhunt">
+                <h1>Headhunt Simulator</h1>
+                <p>Comming Soon</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="pages/recruit.html">
+            <div class="content" id="recruit">
+                <h1>Recruit Tool</h1>
+                <p>Comming Soon</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="pages/ifOperator.html">
+            <div class="content" id="ifOperator">
+                <h1>Fun</h1>
+                <p>Comming Soon</p>
+            </div>
+        </a>
+    </div>
+
+    <footer>
+        <div class="footer" id="about">
+            <div class="aboutsite">
+                <h2>About This Site</h2>
+                <p>This is open source project by 
+                    <a href="https://github.com/MinkuruDev" target="_blank">Mars</a>
+                </p>
+                <p>You can contribute to this project at
+                    <a href="https://github.com/MinkuruDev/ArknightsTools" target="_blank">Github</a>
+                </p>
+                <p>Report Bugs/Errors/Issues 
+                    <a href="https://github.com/MinkuruDev/ArknightsTools/issues" target="_blank">Here</a>
+                </p>
+            </div>
+
+            <div class="aboutak">
+                <h2>About Arknights</h2>
+                <p>Arknights Official pages: 
+                    <a href="https://www.arknights.global" target="_blank">https://www.arknights.global</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/app.js"></script>
+</body>
 </html>
