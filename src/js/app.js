@@ -28,7 +28,7 @@ const foot = `
         <p>You can contribute to this project at
             <a href="https://github.com/MinkuruDev/ArknightsTools" target="_blank">Github</a>
         </p>
-        <p>Report Bugs/Errors/Issues 
+        <p>Report Bugs/Errors/Issues or Require new features
             <a href="https://github.com/MinkuruDev/ArknightsTools/issues" target="_blank">Here</a>
         </p>
     </div>
@@ -71,4 +71,22 @@ function showNav(){
     }
 
     return true;
+}
+
+let btnTop = document.getElementById("goTop");
+if(btnTop == undefined){
+    document.writeln(`
+    <div id="goTop" style="display: none;">
+        <a href="#top">Top</a>
+    </div>
+    `);
+    btnTop = document.getElementById("goTop");
+}
+
+window.onscroll = function(){
+    if(window.scrollY > 500){
+        btnTop.style.display = "block";
+    }else{
+        btnTop.style.display = "none";
+    }
 }

@@ -10,6 +10,10 @@
         display: block;
     }
 
+    .mobile_display{
+        display: block;
+    }
+
     #navcontrol{
         display: inline;
         float: right;
@@ -30,6 +34,14 @@
     #navcontrol img{
         width: 25px;
         height: 25px;
+    }
+
+    #headhuntResult .banner{
+        position: relative;
+        width: 45%;
+        margin: 0 0.5%;
+        height: 100px;
+        border-radius: 0;
     }
 
     .footer div{

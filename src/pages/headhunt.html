@@ -11,12 +11,47 @@
 <body>
     <header></header>
     <h1>Headhunt Simulator</h1>
-    <div>
-        <br><br><br><br><br><br><br>
-        <h1>Comming soon</h1>
-        <br><br><br><br><br><br><br>
+    <div style="text-align: center;">
+        <h3>Select a banner:</h3>
+        <input type="radio" name="banner" value="Stadard Banner" id="standard_banner">
+        <label for="standard_banner">Standard Banner</label>
+        <input type="radio" name="banner" value="Special Banner" id="special_banner" checked="true">
+        <label for="special_banner" id="special_banner">Special Banner</label>
+        <br>
+        <br>
+        <img src="../img/banner/special.png" id="bannerImg">
     </div>
+    <div style="text-align: center;">
+        <br><label for="delay">Delay time: </label>
+        <input type="range" min="0" max="10" value="2" step="0.1" id="delay" oninput="this.nextElementSibling.value = this.value">
+        <output for="delay" name="delay">2</output><p style="display: inline;"> Second(s)</p>
+        <br><br>
+        <button onclick="doHeadhunt(1)">Headhunt</button>
+        <button onclick="doHeadhunt(10)">Headhunt x10</button>
+        <br><br>
+    </div>
+    <div id="headhuntResult">
+        <br><br><br><br><br><br>
+        <h1>Result will show here</h1>
+        <br><br><br><br><br><br>
+    </div>
+    <div>
+        <br><label>Roll history:</label>
+        <button onclick="clearHistory()">Clear History</button>
+        <table id="rollHistory">
+            <tr>
+                <td>Time</td>
+                <td>Banner</td>
+                <td>Rarery</td>
+                <td>Operator</td>
+            </tr>
+        </table>
+    </div>
+    <p class="mobile_display">Tips: Rotate screen Horizontally and enable destop mode to get better experience</p>
     <footer></footer>   
     <script src="../js/app.js"></script>
+    <script src="../js/operators.js"></script>
+    <script src="../js/banner.js"></script>
+    <script src="../js/headhunt.js"></script>
 </body>
 </html>

@@ -1,6 +1,14 @@
 const res = document.getElementById("statisticResult");
 const form = document.getElementById("statisticForm");
 
+function resetResult(alter){
+    res.innerHTML = `
+        <p><b><i>Data from playable operators in server EN</i></b></p>
+        <p><b><i>Data ${alter?"INCLUDE":"EXCLUDE"} Alternative operators</i></b></p>
+        <br>
+    `;
+}
+
 function sortObject(obj, comp){
     let sortable = [];
     for(let key in obj){
@@ -27,12 +35,12 @@ function raceStatistic(){
     });
     let unk = raceCnt["Unknown"].length + raceCnt["Undisclosed"].length;
     let p = `<p>There are ${unk} operators Unknown/Undisclosed their race: 
-            <b><i>${raceCnt["Unknown"].join(", ")}, ${raceCnt["Undisclosed"].join(", ")}</i><b></p>`;
+            <i>${raceCnt["Unknown"].join(", ")}, ${raceCnt["Undisclosed"].join(", ")}</i></p>`;
     delete raceCnt["Unknown"];
     delete raceCnt["Undisclosed"];
     
     raceCnt = sortObject(raceCnt);
-    res.innerHTML = "";
+    resetResult(alter=false);
     // console.log(raceCnt);
     max = raceCnt[0][1].length;
     most = [];
@@ -50,9 +58,9 @@ function raceStatistic(){
         res.innerHTML += `<p><b><i>${most[0]}</i></b> with ${max} operators is the race have most operators</p>`;
     }
     res.innerHTML += p;
-    res.innerHTML += `<br><h2><i>LIST OF RACES AND OPERATORS OF THAT RACE:<i></h2>`;
+    res.innerHTML += `<br><h2>LIST OF RACES AND OPERATORS OF THAT RACE:</h2>`;
     raceCnt.forEach((item, index) => {
-        res.innerHTML += `<p><i>${index+1}. <b>${item[0]}</b> (${item[1].length}): ${item[1].join(", ")}</i></p>`;
+        res.innerHTML += `<p>${index+1}. <b>${item[0]}</b> (${item[1].length}): <i>${item[1].join(", ")}</i></p>`;
     });
 }
 
@@ -103,6 +111,29 @@ function prevDay(date){
     return `${months[month]} ${day-1}`;
 }
 
+function nextDay(date){
+    let month = months[date.split(" ")[0]];
+    let day = parseInt(date.split(" ")[1]);
+    day++;
+    if(day == 32){
+        day = 1;
+        month++;
+        if(month == 13){
+            month = 1;
+        }
+    }
+    if(day == 29 && month == 2){
+        day = 1;
+        month++;
+    }
+    if(day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)){
+        day = 1;
+        month++;
+    }
+
+    return `${months[month]} ${day}`;
+}
+
 function dayCount(from, to){
     let _m1 = from.split(" ")[0];
     let _d1 = parseInt(from.split(" ")[1]);
@@ -118,16 +149,21 @@ function dayCount(from, to){
 
 function birthdayStatistic(){
     let birthdayCnt = {};
+    let alterCount = 0;
     Object.keys(operators).forEach(key => {
         let op = operators[key];
-        if(op["alter"].toLowerCase() == 'true') return;
+        if(op["alter"].toLowerCase() == 'true'){
+            alterCount++;
+            return;
+        }
         if(birthdayCnt[op["dateOfBirth"]] == undefined){
             birthdayCnt[op["dateOfBirth"]] = [];
         }
         birthdayCnt[op["dateOfBirth"]].push(op["codeName"]);
     });
     let unk = birthdayCnt["Unknown"].length + birthdayCnt["Undisclosed"].length;
-    let p = `<p> Unknown/Undisclosed (${unk}): ${birthdayCnt["Unknown"].join(", ")}, ${birthdayCnt["Undisclosed"].join(", ")}</p>`;
+    let p = `<p>There are ${unk} operators Unknown/Undisclosed birthday: 
+    <i>${birthdayCnt["Unknown"].join(", ")}, ${birthdayCnt["Undisclosed"].join(", ")}</i></p>`;
     delete birthdayCnt["Unknown"];
     delete birthdayCnt["Undisclosed"];
 
@@ -140,11 +176,20 @@ function birthdayStatistic(){
         return parseInt(_a[1]) - parseInt(_b[1]);
     });
 
-    res.innerHTML = "";
-    birthdayCnt.forEach((item, index) => {
-        res.innerHTML += `<p>${index+1}. ${item[0]} (${item[1].length}): ${item[1].join(", ")}</p>`;
-    });
-    res.innerHTML += p;
+    resetResult(alter=false);
+    // get current date
+    let today = new Date();
+    today = `${months[today.getMonth() + 1]} ${today.getDate()}`;
+    let idx = birthdayCnt.findIndex(item => item[0] == today);
+    if(idx != -1){
+        res.innerHTML += `<p>Today is the birthday of ${birthdayCnt[idx][1].length} operator(s): 
+        <i>${birthdayCnt[idx][1].join(", ")}</i></p>`;
+    }else{
+        res.innerHTML += `<p>Today is not the birthday of any operator</p>`;
+    }
+    res.innerHTML += 
+        `There are <b><i>${Object.keys(birthdayCnt).length} days</i></b> 
+        is the birthday of <b><i>${Object.keys(operators).length - unk - alterCount}</i><b> operators`;
 
     // find longest continuous birthday
     let prev = birthdayCnt[0][0];
@@ -176,7 +221,7 @@ function birthdayStatistic(){
         maxStart = start;
         maxEnd = end;
     }
-    res.innerHTML += `<p>Longest continuous birthday: ${maxStart} ${maxEnd} (${max})</p>`;
+    res.innerHTML += `<p>Longest continuous birthday: <b><i>${maxStart} to ${maxEnd}</i></b> with ${max} days have birthday</p>`;
 
     // find longest continuous days without birthday
     start = birthdayCnt[0][0];
@@ -192,7 +237,13 @@ function birthdayStatistic(){
             end = cur;
         }
     }
-    res.innerHTML += `<p>Longest continuous days without birthday: ${start} ${end} (${max})</p>`;
+    res.innerHTML += `<p>Longest continuous days without birthday: <b><i>${nextDay(start)} to ${prevDay(end)}</i></b> 
+    with ${max-2} days don't have birthday</p>`;
+    res.innerHTML += p;
+    res.innerHTML += `<br><h2>LIST OF BIRTHDAY WITH OPERATORS:</h2>`;
+    birthdayCnt.forEach((item, index) => {
+        res.innerHTML += `<p>${index+1}. <b>${item[0]}</b> (${item[1].length}): <i>${item[1].join(", ")}</i></p>`;
+    });
 
 }
 
@@ -218,13 +269,8 @@ function classStatistic(){
         branches[op["branch"]].push(op["codeName"]);
     }
 
-    res.innerHTML = "";
-
-    // sort branches
-    branches = sortObject(branches);
-
-    // output branche has most operators
-    res.innerHTML += `<p>Branches has most operators: ${branches[0][0]} (${branches[0][1].length})</p>`;
+    resetResult(alter=true);
+    res.innerHTML += `<h2>LIST OF CLASSES AND BRANCHES:</h2>`;
 
     for(let classs in classes){
         res.innerHTML += `<h2>${classs} (${classes[classs].count}):</h2>`;
@@ -232,16 +278,20 @@ function classStatistic(){
             if(branch == "count"){
                 continue;
             }
-            res.innerHTML += `<p>${branch} (${classes[classs][branch].length}): ${classes[classs][branch].join(", ")}</p>`;
+            res.innerHTML += `<p><b>${branch}</b> (${classes[classs][branch].length}): <i>${classes[classs][branch].join(", ")}</i></p>`;
         }
     }
 }
 
 function placeStatistic(){
     let places = {};
+    let alterCount = 0;
     for(let operator in operators){
         let op = operators[operator];
-        if(op["alter"].toLowerCase() == 'true') continue;
+        if(op["alter"].toLowerCase() == 'true'){
+            alterCount++;
+            continue;
+        }
         if(places[op["placeOfBirth"]] == undefined){
             places[op["placeOfBirth"]] = [];
         }
@@ -255,10 +305,13 @@ function placeStatistic(){
 
     places = sortObject(places);
 
-    res.innerHTML = "";
-    res.innerHTML += `<p>Unknown/Undisclosed (${unk[0].length + unk[1].length}): ${unk[0].join(", ")}, ${unk[1].join(", ")}</p>`;
+    resetResult(alter=false);
+    res.innerHTML += `<p>There are ${Object.keys(places).length} places is place of birth of 
+    ${Object.keys(operators).length - alterCount - unk[0].length - unk[1].length} operators</p>`;
+    res.innerHTML += `<p>There are ${unk[0].length + unk[1].length} operators Unknown/Undisclosed place of birth: <i>${unk[0].join(", ")}, ${unk[1].join(", ")}</i></p>`;
+    res.innerHTML += `<br><h2>LIST OF PLACES OF BIRTH:</h2>`;
     places.forEach((item, index) => {
-        res.innerHTML += `<p>${index+1}. ${item[0]} (${item[1].length}): ${item[1].join(", ")}</p>`;
+        res.innerHTML += `<p>${index+1}. <b>${item[0]}</b> (${item[1].length}): <i>${item[1].join(", ")}</i></p>`;
     });
 }
 
