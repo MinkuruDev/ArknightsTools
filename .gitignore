@@ -1,5 +1,7 @@
-# folder for local testing
-local test
+# folder/file for local testing
+LocalTest
+WriteData/test
 
-# file for local temp
-Writedata/*.csv
+# folder/file for local temp
+WriteData/*.csv
+__pycache__

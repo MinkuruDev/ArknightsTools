@@ -113,9 +113,9 @@ function doHeadhunt(times = 1){
         for(let name in operators){
             if(binarySearch(banners.notBanner, name) != -1) continue;
             let operator = operators[name];
-            if(operator.rarely < 3) continue;
+            if(operator.rarity < 3) continue;
 
-            banner.poll[operator.rarely].push(name);
+            banner.poll[operator.rarity].push(name);
         }
 
         if(banner.more5x != undefined){

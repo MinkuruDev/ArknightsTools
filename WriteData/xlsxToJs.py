@@ -2,6 +2,7 @@ import csv
 import json
 import pandas as pd
 import os
+import lib.tags as tags
 
 months = {
     1: "Jan",
@@ -49,6 +50,7 @@ def main():
         if (day != "Unknown") and (day != "Undisclosed"):
             date = day.split(" ")[0].split("-")
             op["dateOfBirth"] = months[int(date[1])] + " " + date[2]
+        op["tags"] = tags.getTags(op["tags"], classs=op["classs"], branch=op["branch"])
 
         js_file.write('\t"{}": {}'.format(op[props[0]], json.dumps(op)))
         js_file.write(",\n")
