@@ -12,6 +12,7 @@ const topnav = `
             <a href="../pages/statistic.html">Statistic</a>
             <a href="../pages/headhunt.html">Headhunt</a>
             <a href="../pages/recruit.html">Recruit</a>
+            <a href="../pages/seaborn.html" onclick="return showNav()">Translate</a>
             <a href="../pages/ifOperator.html">Fun</a>
             <a href="#about" onclick="return showNav()">About</a>
         </div>
